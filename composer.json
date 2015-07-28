@@ -5,6 +5,7 @@
     "artisan",
     "command",
     "clear database",
+    "drop database",
     "laravel"
   ],
   "homepage": "https://github.com/abhijitghogre/laravel-db-clear-command",
