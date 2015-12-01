@@ -1,4 +1,5 @@
-<?php namespace Abhijitghogre\LaravelDbClearCommand\Console\Commands;
+<?php
+namespace Abhijitghogre\LaravelDbClearCommand\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -6,13 +7,12 @@ use Illuminate\Support\Facades\Schema;
 
 class RefreshDatabase extends Command
 {
-
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'db:clear';
+    protected $name = 'db:clear {--seed : Seed the database after clearing}';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class RefreshDatabase extends Command
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         foreach (DB::select('SHOW TABLES') as $k => $v) {
-            $tables[] = array_values((array)$v)[0];
+            $tables[] = array_values((array) $v)[0];
         }
 
         foreach ($tables as $table) {
@@ -53,6 +53,9 @@ class RefreshDatabase extends Command
 
         $this->call('migrate');
 
+        if ($this->option('seed')) {
+            $this->call('db:seed');
+        }
     }
 
     /**
