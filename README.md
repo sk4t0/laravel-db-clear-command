@@ -52,3 +52,12 @@ php artisan db:clear
 
 
 The command switches off foreign key check, drops all the tables and re-runs your migrations.
+
+
+>Optionally, pass ```--seed``` option to run the seeders post migration
+
+```php
+
+php artisan db:clear --seed
+
+```
