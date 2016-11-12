@@ -1,5 +1,5 @@
 {
-  "name": "kanashin/laravel-db-clear-command",
+  "name": "abhijitghogre/laravel-db-clear-command",
   "description": "Laravel artisan command to drop all database tables and rerun the migrations.",
   "keywords": [
     "artisan",
