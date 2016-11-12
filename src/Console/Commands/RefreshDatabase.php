@@ -4,6 +4,7 @@ namespace Abhijitghogre\LaravelDbClearCommand\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Console\Input\InputOption;
 
 class RefreshDatabase extends Command
 {
@@ -12,7 +13,10 @@ class RefreshDatabase extends Command
      *
      * @var string
      */
-    protected $name = 'db:clear {--seed : Seed the database after clearing}';
+    protected $signature = 'db:clear 
+                        {--m|migrate : Migrate the database after clearing}
+                        {--s|seed : Seed the database after clearing}
+                        ';
 
     /**
      * The console command description.
@@ -43,7 +47,7 @@ class RefreshDatabase extends Command
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         foreach (DB::select('SHOW TABLES') as $k => $v) {
-            $tables[] = array_values((array) $v)[0];
+            $tables[] = array_values((array)$v)[0];
         }
 
         foreach ($tables as $table) {
@@ -51,9 +55,10 @@ class RefreshDatabase extends Command
             echo "Table " . $table . " has been dropped." . PHP_EOL;
         }
 
-        $this->call('migrate');
-
-        if ($this->option('seed')) {
+        if ($this->option('migrate')) {
+            $this->call('migrate');
+        } elseif ($this->option('seed')) {
+            $this->call('migrate');
             $this->call('db:seed');
         }
     }
@@ -78,7 +83,8 @@ class RefreshDatabase extends Command
     protected function getOptions()
     {
         return [
-
+            ['migrate', null, InputOption::VALUE_NONE, 'Indicates if the migrate task should be run.'],
+            ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be run.'],
         ];
     }
 
