@@ -12,7 +12,7 @@ class RefreshDatabase extends Command
      *
      * @var string
      */
-    protected $name = 'db:clear {--seed : Seed the database after clearing}';
+    protected $name = 'db:clear';
 
     /**
      * The console command description.
@@ -53,9 +53,9 @@ class RefreshDatabase extends Command
 
         $this->call('migrate');
 
-        if ($this->option('seed')) {
-            $this->call('db:seed');
-        }
+
+        $this->call('db:seed');
+
     }
 
     /**
